@@ -13,17 +13,29 @@ class TestGetUsers extends TestCase {
     private $client;
 
     private function init() {
-        $CONFIG_DIR = 'config';
-        // $CONFIG_FILE = $CONFIG_DIR . '/config.ini';
-        $TWEETS_FILE = $CONFIG_DIR . '/tweets.json';
-        $PROJECTS_FILE = $CONFIG_DIR . '/project.json';
-        $USERS_FILE = $CONFIG_DIR . '/users.json';
+        $project_cred_fields = array(
+            "bearer_token",
+            "api_key",
+            "api_secret"
+        );
+        $project_cred_array = array();
 
-        $projects_json = file_get_contents($PROJECTS_FILE);
-        $project = json_decode($projects_json, true);
+        $projects_filename = 'config/project.json';
+
+        if (file_exists($projects_filename)) {
+            // Local testing - take credentials from configuration file
+            $projects_json = file_get_contents($projects_filename);
+            $project_cred_array = json_decode($projects_json, true);
+        } else {
+            // Gitlab CI - take credentials from environment
+            foreach ($project_cred_fields as $field) {
+                $env_var = "project_" . $field;
+                isset($_ENV[$env_var]) && $project_cred_array[$field] = $_ENV[$env_var];
+            }
+        }
 
         $project_cred = new ProjectCredentials();
-        $project_cred->from_array($project);
+        $project_cred->from_array($project_cred_array);
         
         $this->client = new TwitterClient();
         $this->client->project_credentials = $project_cred;
@@ -39,7 +51,7 @@ class TestGetUsers extends TestCase {
 
     public function testSuccess() {
         $this->init();
-        
+
         $user_info = $this->client->GetUsersByUsername("narad1972");
         
         $this->assertArrayHasKey("id", $user_info);
