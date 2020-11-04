@@ -47,16 +47,59 @@ class TestGetUsers extends TestCase {
 
         $params = new GetUsersQueryParams();
         $params_array = array(
-            "ids" => array(75625155)
+            "ids" => array(783214)
         );
         $params->from_array($params_array);
 
-        $user_info_array = $this->client->GetUsers($params);
+        $response = $this->client->GetUsers($params);
 
-        foreach ($user_info_array as $user_info) {
+        foreach ($response["data"] as $user_info) {
             $this->assertArrayHasKey("id", $user_info);
             $this->assertArrayHasKey("name", $user_info);
             $this->assertArrayHasKey("username", $user_info);
+        }
+    }
+
+    public function testSuccessWithOptions() {
+        $this->init();
+
+        $params = new GetUsersQueryParams();
+        $params_array = array(
+            "ids" => array(2244994945, 75625155),
+            "expansions" => array("pinned_tweet_id"),
+            "tweet.fields" => array("created_at"),
+            "user.fields" => array("profile_image_url", "verified")
+            );
+        $params->from_array($params_array);
+
+        $response = $this->client->GetUsers($params);
+
+        foreach ($response["data"] as $user_info) {
+            $this->assertArrayHasKey("id", $user_info);
+            $this->assertArrayHasKey("name", $user_info);
+            $this->assertArrayHasKey("username", $user_info);
+            $this->assertArrayHasKey("profile_image_url", $user_info);
+        }
+    }
+
+    public function testError() {
+        $this->init();
+
+        $params = new GetUsersQueryParams();
+        $params_array = array();
+        $params->from_array($params_array);
+
+        $response = $this->client->GetUsers($params, $forced = true);
+
+        $this->assertArrayHasKey("title", $response);
+        $this->assertArrayHasKey("detail", $response);
+        $this->assertArrayHasKey("type", $response);
+        $this->assertArrayHasKey("errors", $response);
+
+        $this->assertEquals("Invalid Request", $response["title"]);
+        foreach ($response["errors"] as $error) {
+            $this->assertArrayHasKey("parameters", $error);
+            $this->assertArrayHasKey("message", $error);
         }
     }
 }
