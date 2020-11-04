@@ -8,7 +8,7 @@ use narad1972\TwitterClient\FieldTypes;
 use narad1972\TwitterClient\FieldContainer;
 use narad1972\TwitterClient\v2;
 
-class GetUsersQueryParams  extends FieldContainer {
+class GetUsersQueryParams extends FieldContainer {
     protected $_FIELDS = array(
         "expansions" => array(FieldTypes::FIELD_ENUM, self::_EXPANSIONS_ENUM),
         "ids" => array(FieldTypes::FIELD_ARRAY, null),
@@ -39,7 +39,7 @@ class GetUsersQueryParams  extends FieldContainer {
 
     public function validate()
     {
-        $this->FieldContainer::validate();
+        parent::validate();
         $this->_validate_ids();
     }
 

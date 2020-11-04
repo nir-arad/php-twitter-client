@@ -10,6 +10,8 @@ use narad1972\TwitterClient\UserCredentials;
 use narad1972\TwitterClient\v2\Tweets\Search\RecentQueryParams;
 use narad1972\TwitterClient\v2\Users\GetUsersQueryParams;
 
+require_once 'Utils.php';
+
 class TwitterClient {
     public $project_credentials = null;
     public $user_credentials = null;
@@ -53,6 +55,11 @@ class TwitterClient {
 
     /**
      * Retrieve multiple users with IDs
+     * 
+     * @param GetUsersQueryParams $query_params : query parameters
+     * @param bool $force : force using $query_params without validation
+     * 
+     * @return array : an array of user entities
      */
     public function GetUsers(GetUsersQueryParams $query_params, $force=false) : array {
         curl_reset($this->_curl_obj);
@@ -60,9 +67,10 @@ class TwitterClient {
         if (!$force) {
             $query_params->validate();
         }
+        $query_string = $query_params->to_string();
 
         $url = 'https://api.twitter.com/2/users?';
-        $url .= $query_params->to_string();
+        $url .= $query_string;
         $this->curl_setopt_oauth2_bearer_token();
         curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
         curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);

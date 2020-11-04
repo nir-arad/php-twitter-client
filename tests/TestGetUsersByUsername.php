@@ -7,9 +7,8 @@ namespace narad1972\TwitterClient;
 use PHPUnit\Framework\TestCase;
 
 use narad1972\TwitterClient\ProjectCredentials;
-use narad1972\TwitterClient\v2\Users\GetUsersQueryParams;
 
-class TestGetUsers extends TestCase {
+class TestGetUsersByUsername extends TestCase {
 
     private $client;
 
@@ -45,14 +44,7 @@ class TestGetUsers extends TestCase {
     public function testSuccess() {
         $this->init();
 
-        $params = new GetUsersQueryParams();
-        $params_array = array(
-            "ids" => array(75625155)
-        );
-        $params->from_array($params_array);
-
-        $user_info_array = $this->client->GetUsers($params);
-        $user_info = &$user_info_array[0];
+        $user_info = $this->client->GetUsersByUsername("narad1972");
 
         $this->assertArrayHasKey("id", $user_info);
         $this->assertArrayHasKey("name", $user_info);
