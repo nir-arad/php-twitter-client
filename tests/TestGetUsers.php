@@ -10,16 +10,9 @@ use narad1972\TwitterClient\ProjectCredentials;
 
 class TestGetUsers extends TestCase {
 
-    /**
-     * Test that true does in fact equal true
-     */
-    public function testTrueIsTrue()
-    {
-        $this->assertTrue(true);
-    }
+    private $client;
 
-    public function testSuccess() {
-
+    private function init() {
         $CONFIG_DIR = 'config';
         // $CONFIG_FILE = $CONFIG_DIR . '/config.ini';
         $TWEETS_FILE = $CONFIG_DIR . '/tweets.json';
@@ -32,10 +25,22 @@ class TestGetUsers extends TestCase {
         $project_cred = new ProjectCredentials();
         $project_cred->from_array($project);
         
-        $client = new TwitterClient();
-        $client->project_credentials = $project_cred;
+        $this->client = new TwitterClient();
+        $this->client->project_credentials = $project_cred;
+    }
+    
+    /**
+     * Test that true does in fact equal true
+     */
+    public function testTrueIsTrue()
+    {
+        $this->assertTrue(true);
+    }
 
-        $user_info = $client->GetUsersByUsername("narad1972");
+    public function testSuccess() {
+        $this->init();
+        
+        $user_info = $this->client->GetUsersByUsername("narad1972");
         
         $this->assertArrayHasKey("id", $user_info);
         $this->assertArrayHasKey("name", $user_info);
