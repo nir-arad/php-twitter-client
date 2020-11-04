@@ -92,47 +92,61 @@ class FieldContainer
             $validator = $validation[1];
             $required = in_array($name, $this->_REQUIRED);
 
-            switch ($validation[0]) {
+            $type = $validation[0];
+            $val = &$this->_values[$name];
+
+            switch ($type) {
                 case FieldTypes::FIELD_INT:
-                    $this->validate_is_int($this->_values[$name], $name, $required);
+                    $this->validate_is_int($val, $name, $required);
                     break;
+
                 case FieldTypes::FIELD_STRING:
-                    $this->validate_is_string($this->_values[$name], $name, $required);
+                    $this->validate_is_string($val, $name, $required);
                     break;
+
                 case FieldTypes::FIELD_DATE:
-                    $this->validate_is_date($this->_values[$name], $name, $required);
+                    $this->validate_is_date($val, $name, $required);
                     break;
+
                 case FieldTypes::FIELD_ENUM:
-                    $this->validate_is_enum($this->_values[$name], $name, $validator, $required);
+                    $this->validate_is_enum($val, $name, $validator, $required);
                     break;
+
                 case FieldTypes::FIELD_ARRAY:
-                    $this->validate_is_array($this->_values[$name], $name, $required);
+                    $this->validate_is_array($val, $name, $required);
                     break;
+
                 default:
                     throw new UnexpectedValueException("Undefined field type\n");
             }
         }
     }
+
     public function to_string()
     {
         $ret = [];
         foreach ($this->_FIELDS as $name => &$validation) {
-            if (!$this->_values[$name]) {
-                continue;
-            }
+            if (!$this->_values[$name]) continue;
+
             $field = $name . "=";
-            switch ($validation[0]) {
+            $type = $validation[0];
+            $val = &$this->_values[$name];
+
+            switch ($type) {
                 case FieldTypes::FIELD_INT:
                 case FieldTypes::FIELD_STRING:
-                    $field .= $this->_values[$name];
+                    $field .= $val;
                     break;
+
                 case FieldTypes::FIELD_DATE:
-                    $field .= $this->_values[$name]->format(DateTimeInterface::ISO8601);
+                    $field .= $val->format(DateTimeInterface::ISO8601);
                     break;
+
                 case FieldTypes::FIELD_ENUM:
                 case FieldTypes::FIELD_ARRAY:
-                    $field .= implode(',', $this->_values[$name]);
+                    $field .= implode(',', $val);
                     break;
+
                 default:
                     throw new UnexpectedValueException("Undefined field type\n");
             }
