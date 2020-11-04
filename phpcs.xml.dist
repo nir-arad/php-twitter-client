@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="TwitterClient">
-    <description>The coding standard of TwitterClient package</description>
+<ruleset name="php-twitter-client">
+    <description>The coding standard of php-twitter-client package</description>
     <arg value="p" />
 
     <config name="ignore_warnings_on_exit" value="1" />

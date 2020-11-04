@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="narad1972 Test Suite">
+        <testsuite name="php-twitter-client Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
