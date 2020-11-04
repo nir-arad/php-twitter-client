@@ -72,6 +72,10 @@ class FieldContainer
             $this->validate_required($var, $name, $required);
             return;
         }
+        if (!is_array($var)) {
+            $msg = "Field '" . $name . "' must be an array\n";
+            throw new Exception($msg);
+        }
         $diff = array_diff($var, $enum);
         if (!empty($diff)) {
             $msg = "Field '" . $name . "' must not include the following elements: [" . implode(', ', $diff) . "]\n";
