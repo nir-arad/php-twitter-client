@@ -2,10 +2,12 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-build]][link-build]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![Build Status][ico-gitlab-build]][link-gitlab-build]
+[![Pipeline status][ico-gitlab-pipeline]][link-gitlab-pipeline]
+[![Coverage report][ico-gitlab-cov]][link-gitlab-cov]
 [![Total Downloads][ico-downloads]][link-downloads]
+<!-- [![Coverage Status][ico-scrutinizer]][link-scrutinizer] -->
+<!-- [![Quality Score][ico-code-quality]][link-code-quality] -->
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
@@ -74,16 +76,19 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 
 <!-- Build -->
-[ico-travis]: https://img.shields.io/travis/narad1972/php-twitter-client/master.svg?style=flat-square
-[link-travis]: https://travis-ci.org/narad1972/php-twitter-client
+[ico-gitlab-build]: https://img.shields.io/gitlab/pipeline/narad1972/php-twitter-client/master
+[link-gitlab-build]: https://gitlab.com/narad1972/php-twitter-client/-/releases
 
-[ico-build]: https://img.shields.io/gitlab/pipeline/narad1972/php-twitter-client/master
-[link-build]: https://gitlab.com/narad1972/php-twitter-client/-/releases
+<!-- Pipeline status -->
+[ico-gitlab-pipeline]: https://gitlab.com/narad1972/php-twitter-client/badges/master/pipeline.svg
+[link-gitlab-pipeline]: https://gitlab.com/narad1972/php-twitter-client/commits/master
 
 <!-- Coverage -->
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/narad1972/php-twitter-client.svg?style=flat-square
-[link-scrutinizer]: https://scrutinizer-ci.com/g/narad1972/php-twitter-client/code-structure
-[link-gitlab-cov]: https://gitlab.com/narad1972/php-twitter-client/-/graphs/master/charts
+<!-- [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/narad1972/php-twitter-client.svg?style=flat-square -->
+<!-- [link-scrutinizer]: https://scrutinizer-ci.com/g/narad1972/php-twitter-client/code-structure -->
+
+[ico-gitlab-cov]: https://gitlab.com/narad1972/php-twitter-client/badges/master/coverage.svg
+[link-gitlab-cov]: https://gitlab.com/narad1972/php-twitter-client/-/graphsmaster/charts
 
 <!-- Quality -->
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/narad1972/php-twitter-client.svg?style=flat-square
