@@ -23,12 +23,11 @@ class TestGetUsers extends TestCase {
         $CONFIG_DIR = 'config';
         // $CONFIG_FILE = $CONFIG_DIR . '/config.ini';
         $TWEETS_FILE = $CONFIG_DIR . '/tweets.json';
-        $PROJECTS_FILE = $CONFIG_DIR . '/projects.json';
+        $PROJECTS_FILE = $CONFIG_DIR . '/project.json';
         $USERS_FILE = $CONFIG_DIR . '/users.json';
 
         $projects_json = file_get_contents($PROJECTS_FILE);
-        $projects_array = json_decode($projects_json, true);
-        $project = $projects_array['DimashMTV'];
+        $project = json_decode($projects_json, true);
 
         $project_cred = new ProjectCredentials();
         $project_cred->from_array($project);
