@@ -52,10 +52,11 @@ class TestGetUsers extends TestCase {
         $params->from_array($params_array);
 
         $user_info_array = $this->client->GetUsers($params);
-        $user_info = &$user_info_array[0];
 
-        $this->assertArrayHasKey("id", $user_info);
-        $this->assertArrayHasKey("name", $user_info);
-        $this->assertArrayHasKey("username", $user_info);
+        foreach ($user_info_array as $user_info) {
+            $this->assertArrayHasKey("id", $user_info);
+            $this->assertArrayHasKey("name", $user_info);
+            $this->assertArrayHasKey("username", $user_info);
+        }
     }
 }
