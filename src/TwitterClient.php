@@ -111,7 +111,7 @@ class TwitterClient {
         $this->_validate_curl_exec($json);
         $array = json_decode($json, true);
 
-        return $array["data"];
+        return $array;
     }
     
     public function GetTweetsSearchRecent(string $user_name, RecentQueryParams &$query_params, $force=false)

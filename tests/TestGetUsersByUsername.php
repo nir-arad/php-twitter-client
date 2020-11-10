@@ -44,7 +44,8 @@ class TestGetUsersByUsername extends TestCase {
     public function testSuccess() {
         $this->init();
 
-        $user_info = $this->client->GetUsersByUsername("narad1972");
+        $response = $this->client->GetUsersByUsername("narad1972");
+        $user_info = $response["data"];
 
         $this->assertArrayHasKey("id", $user_info);
         $this->assertArrayHasKey("name", $user_info);
