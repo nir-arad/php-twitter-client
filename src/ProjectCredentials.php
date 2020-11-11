@@ -13,11 +13,10 @@ class ProjectCredentials {
         $this->api_key = $project_api_key;
         $this->api_secret = $project_api_secret;
     }
+
     public function from_array($credentials) {
         $this->bearer_token = $credentials['bearer_token'];
         $this->api_key = $credentials['api_key'];
         $this->api_secret = $credentials['api_secret'];
     }
 }
-
-?>

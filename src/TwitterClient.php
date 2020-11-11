@@ -5,16 +5,16 @@ namespace narad1972\TwitterClient;
 use RuntimeException;
 use InvalidArgumentException;
 
-use narad1972\TwitterClient\ProjectCredentials;
-use narad1972\TwitterClient\UserCredentials;
+// use narad1972\TwitterClient\ProjectCredentials;
+// use narad1972\TwitterClient\UserCredentials;
 use narad1972\TwitterClient\v1;
 use narad1972\TwitterClient\v2;
 
 require_once 'Utils.php';
 
 class TwitterClient {
-    public $project_credentials = null;
-    public $user_credentials = null;
+    public $project_credentials;
+    public $user_credentials;
 
     private $_curl_obj;
 
@@ -38,12 +38,42 @@ class TwitterClient {
         }
     }
 
-    private function curl_setopt_oauth2_bearer_token() : void {
+    private function curl_setopt_oauth_v2_bearer_token($url) : void {
         $this->validate_project();
         $headers = array();
         $headers[] = 'Content-type: application/json';
         $headers[] = 'Authorization: Bearer ' . $this->project_credentials->bearer_token;
     
+        curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
+        curl_setopt($this->_curl_obj, CURLOPT_HTTPHEADER, $headers);
+    }
+
+    private function curl_setopt_oauth_v1($method, $url) : void {
+        $oauth = new \OAuth($this->project_credentials->api_key, $this->project_credentials->api_secret);
+        $oauth->setToken($this->user_credentials->access_token, $this->user_credentials->access_token_secret);
+    
+        $nonce = mt_rand();
+        $oauth->setNonce($nonce);
+    
+        $timestamp = time();
+        $oauth->setTimestamp($timestamp);
+    
+        $sig = $oauth->generateSignature($method, $url);
+    
+        $auth_header = "Authorization: OAuth ";
+        $auth_header .= 'oauth_consumer_key="' . urlencode($this->project_credentials->api_key) . '", ';
+        $auth_header .= 'oauth_nonce="' . $nonce . '", ';
+        $auth_header .= 'oauth_signature="' . urlencode($sig) . '", ';
+        $auth_header .= 'oauth_signature_method="HMAC-SHA1", ';
+        $auth_header .= 'oauth_timestamp="' . $timestamp . '", ';
+        $auth_header .= 'oauth_token="' . urlencode($this->user_credentials->access_token) . '", ';
+        $auth_header .= 'oauth_version="1.0"';
+    
+        $headers = array();
+        $headers[] = 'Content-type: application/json';
+        $headers[] = $auth_header;
+    
+        curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
         curl_setopt($this->_curl_obj, CURLOPT_HTTPHEADER, $headers);
     }
 
@@ -71,8 +101,7 @@ class TwitterClient {
 
         $url = 'https://api.twitter.com/2/users?';
         $url .= $query_string;
-        $this->curl_setopt_oauth2_bearer_token();
-        curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
+        $this->curl_setopt_oauth_v2_bearer_token($url);
         curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
     
         $json = curl_exec($this->_curl_obj);
@@ -101,8 +130,7 @@ class TwitterClient {
 
         $url = 'https://api.twitter.com/2/users/' . $id;
         $url .= "?" . $query_string;
-        $this->curl_setopt_oauth2_bearer_token();
-        curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
+        $this->curl_setopt_oauth_v2_bearer_token($url);
         curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
     
         $json = curl_exec($this->_curl_obj);
@@ -126,8 +154,7 @@ class TwitterClient {
         curl_reset($this->_curl_obj);
 
         $url = 'https://api.twitter.com/2/users/by/username/' . $user_name;
-        $this->curl_setopt_oauth2_bearer_token();
-        curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
+        $this->curl_setopt_oauth_v2_bearer_token($url);
         curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
     
         $json = curl_exec($this->_curl_obj);
@@ -147,8 +174,7 @@ class TwitterClient {
 
         $url = 'https://api.twitter.com/2/tweets/search/recent?';
         $url .= $query_params->to_string();
-        $this->curl_setopt_oauth2_bearer_token();
-        curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
+        $this->curl_setopt_oauth_v2_bearer_token($url);
         curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
     
         $json = curl_exec($this->_curl_obj);
@@ -162,7 +188,22 @@ class TwitterClient {
      * GetStatusesLookup
      */
     public function GetStatusesLookup(v1\Tweets\GetStatusesLookupQueryParams &$query_params, $force=false) {
+        curl_reset($this->_curl_obj);
 
+        if (!$force) {
+            $query_params->validate();
+        }
+
+        $url = 'https://api.twitter.com/1.1/statuses/lookup.json?';
+        $url .= $query_params->to_string();
+        $this->curl_setopt_oauth_v1('GET', $url);
+        curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
+    
+        $json = curl_exec($this->_curl_obj);
+        $this->_validate_curl_exec($json);
+        $array = json_decode($json, true);
+
+        return $array;
     }
         
 }
