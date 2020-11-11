@@ -2,26 +2,25 @@
 
 namespace narad1972\TwitterClient\v2\Tweets\Search;
 
-use narad1972\TwitterClient\FieldTypes;
-use narad1972\TwitterClient\FieldContainer;
+use narad1972\TwitterClient\Field;
 use narad1972\TwitterClient\v2;
 
-class RecentQueryParams extends FieldContainer {
+class RecentQueryParams extends Field\Container {
 
     protected $_FIELDS = array(
-        "end_time" => array(FieldTypes::FIELD_DATE, null),
-        "expansions" => array(FieldTypes::FIELD_ENUM, self::_EXPANSIONS_ENUM),
-        "max_results" => array(FieldTypes::FIELD_INT, null),
-        "media.fields" => array(FieldTypes::FIELD_ENUM, self::_MEDIA_FIELDS_ENUM),
-        "next_token" => array(FieldTypes::FIELD_STRING, null),
-        "place.fields" => array(FieldTypes::FIELD_ENUM, self::_PLACE_FIELDS_ENUM),
-        "poll.fields" => array(FieldTypes::FIELD_ENUM, self::_POLL_FIELDS_ENUM),
-        "query" => array(FieldTypes::FIELD_STRING, null),
-        "since_id" => array(FieldTypes::FIELD_STRING, null),
-        "start_time" => array(FieldTypes::FIELD_DATE, null),
-        "tweet.fields" => array(FieldTypes::FIELD_ENUM, v2\Tweets\Constants::TWEET_FIELDS_ENUM),
-        "until_id" => array(FieldTypes::FIELD_STRING, null),
-        "user.fields" => array(FieldTypes::FIELD_ENUM, v2\Users\Constants::USER_FIELDS_ENUM)
+        "end_time" => array(Field\Types::FIELD_DATE, null),
+        "expansions" => array(Field\Types::FIELD_ENUM_ARRAY, self::_EXPANSIONS_ENUM),
+        "max_results" => array(Field\Types::FIELD_INT, null),
+        "media.fields" => array(Field\Types::FIELD_ENUM_ARRAY, self::_MEDIA_FIELDS_ENUM),
+        "next_token" => array(Field\Types::FIELD_STRING, null),
+        "place.fields" => array(Field\Types::FIELD_ENUM_ARRAY, self::_PLACE_FIELDS_ENUM),
+        "poll.fields" => array(Field\Types::FIELD_ENUM_ARRAY, self::_POLL_FIELDS_ENUM),
+        "query" => array(Field\Types::FIELD_STRING, null),
+        "since_id" => array(Field\Types::FIELD_STRING, null),
+        "start_time" => array(Field\Types::FIELD_DATE, null),
+        "tweet.fields" => array(Field\Types::FIELD_ENUM_ARRAY, v2\Tweets\Constants::TWEET_FIELDS_ENUM),
+        "until_id" => array(Field\Types::FIELD_STRING, null),
+        "user.fields" => array(Field\Types::FIELD_ENUM_ARRAY, v2\Users\Constants::USER_FIELDS_ENUM)
     );
 
     protected $_REQUIRED = array("query");

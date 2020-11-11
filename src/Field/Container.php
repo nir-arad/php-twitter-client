@@ -1,15 +1,16 @@
 <?php
 
-namespace narad1972\TwitterClient;
+namespace narad1972\TwitterClient\Field;
 
 use DateTimeInterface;
 use UnexpectedValueException;
 
-use narad1972\TwitterClient\FieldTypes;
+use narad1972\TwitterClient\Utils;
+use narad1972\TwitterClient\Field;
 
 use Exception;
 
-class FieldContainer
+class Container
 {
     protected $_FIELDS = array();
     protected $_REQUIRED = array();
@@ -55,30 +56,45 @@ class FieldContainer
         }
     }
 
-    protected function validate_is_array(&$var, $name, $required = false)
+    protected function validate_is_enum(&$var, $name, &$enum, $required = false)
     {
         if (is_null($var)) {
             $this->validate_required($var, $name, $required);
             return;
         }
-        if (!is_array($var)) {
-            throw new Exception("Field '" . $name . "' must be an array\n");
+        if (!in_array($var, $enum)) {
+            throw new Exception("Enum field '" . $name . "' contains non enumerated value\n");
         }
     }
 
-    protected function validate_is_enum(&$var, $name, $enum, $required = false)
+    protected function validate_is_int_array(&$var, $name, $required = false)
     {
         if (is_null($var)) {
             $this->validate_required($var, $name, $required);
             return;
         }
         if (!is_array($var)) {
-            $msg = "Field '" . $name . "' must be an array\n";
-            throw new Exception($msg);
+            throw new Exception("Integer array field '" . $name . "' must be an array\n");
+        }
+        foreach ($var as $val) {
+            if (!is_int($val)) {
+                throw new Exception("Integer array field '" . $name . "': value <" . $val . "> is not an integer\n");
+            }
+        }
+    }
+
+    protected function validate_is_enum_array(&$var, $name, $enum, $required = false)
+    {
+        if (is_null($var)) {
+            $this->validate_required($var, $name, $required);
+            return;
+        }
+        if (!is_array($var)) {
+            throw new Exception("Enum array field '" . $name . "' must be an array\n");
         }
         $diff = array_diff($var, $enum);
         if (!empty($diff)) {
-            $msg = "Field '" . $name . "' must not include the following elements: [" . implode(', ', $diff) . "]\n";
+            $msg = "Enum array field '" . $name . "' must not include the following elements: [" . implode(', ', $diff) . "]\n";
             throw new Exception($msg);
         }
     }
@@ -87,7 +103,7 @@ class FieldContainer
     {
         $this->_values = array();
         foreach ($this->_FIELDS as $name => &$validation) {
-            $this->_values[$name] = array_get($query_params, $name, null);
+            $this->_values[$name] = Utils::array_get($query_params, $name, null);
         }
     }
 
@@ -102,24 +118,28 @@ class FieldContainer
             $val = &$this->_values[$name];
 
             switch ($type) {
-                case FieldTypes::FIELD_INT:
+                case Field\Types::FIELD_INT:
                     $this->validate_is_int($val, $name, $required);
                     break;
 
-                case FieldTypes::FIELD_STRING:
+                case Field\Types::FIELD_STRING:
                     $this->validate_is_string($val, $name, $required);
                     break;
 
-                case FieldTypes::FIELD_DATE:
+                case Field\Types::FIELD_DATE:
                     $this->validate_is_date($val, $name, $required);
                     break;
 
-                case FieldTypes::FIELD_ENUM:
+                case Field\Types::FIELD_ENUM:
                     $this->validate_is_enum($val, $name, $validator, $required);
                     break;
 
-                case FieldTypes::FIELD_ARRAY:
-                    $this->validate_is_array($val, $name, $required);
+                case Field\Types::FIELD_INT_ARRAY:
+                    $this->validate_is_int_array($val, $name, $required);
+                    break;
+
+                case Field\Types::FIELD_ENUM_ARRAY:
+                    $this->validate_is_enum_array($val, $name, $validator, $required);
                     break;
 
                 default:
@@ -139,17 +159,18 @@ class FieldContainer
             $val = &$this->_values[$name];
 
             switch ($type) {
-                case FieldTypes::FIELD_INT:
-                case FieldTypes::FIELD_STRING:
+                case Field\Types::FIELD_INT:
+                case Field\Types::FIELD_STRING:
+                case Field\Types::FIELD_ENUM:
                     $field .= urlencode($val);
                     break;
 
-                case FieldTypes::FIELD_DATE:
+                case Field\Types::FIELD_DATE:
                     $field .= urlencode($val->format(DateTimeInterface::ISO8601));
                     break;
 
-                case FieldTypes::FIELD_ENUM:
-                case FieldTypes::FIELD_ARRAY:
+                case Field\Types::FIELD_INT_ARRAY:
+                case Field\Types::FIELD_ENUM_ARRAY:
                     $field .= urlencode(implode(',', $val));
                     break;
 

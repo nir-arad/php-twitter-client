@@ -7,9 +7,8 @@ use InvalidArgumentException;
 
 use narad1972\TwitterClient\ProjectCredentials;
 use narad1972\TwitterClient\UserCredentials;
-use narad1972\TwitterClient\v2\Tweets\Search\RecentQueryParams;
-use narad1972\TwitterClient\v2\Users\GetUsersQueryParams;
-use narad1972\TwitterClient\v2\Users\GetUserByIdQueryParams;
+use narad1972\TwitterClient\v1;
+use narad1972\TwitterClient\v2;
 
 require_once 'Utils.php';
 
@@ -62,7 +61,7 @@ class TwitterClient {
      * 
      * @return array : an array of user entities
      */
-    public function GetUsers(GetUsersQueryParams $query_params, $force=false) : array {
+    public function GetUsers(v2\Users\GetUsersQueryParams $query_params, $force=false) : array {
         curl_reset($this->_curl_obj);
 
         if (!$force) {
@@ -92,7 +91,7 @@ class TwitterClient {
      * 
      * @return array : an associative array with user information
      */
-    public function GetUserByID(int $id, GetUserByIdQueryParams $query_params, $force=false) : array {
+    public function GetUserByID(int $id, v2\Users\GetUserByIdQueryParams $query_params, $force=false) : array {
         curl_reset($this->_curl_obj);
 
         if (!$force) {
@@ -138,7 +137,7 @@ class TwitterClient {
         return $array;
     }
     
-    public function GetTweetsSearchRecent(string $user_name, RecentQueryParams &$query_params, $force=false)
+    public function GetTweetsSearchRecent(string $user_name, v2\Tweets\Search\RecentQueryParams &$query_params, $force=false)
     {
         curl_reset($this->_curl_obj);
 
@@ -157,6 +156,13 @@ class TwitterClient {
         $array = json_decode($json, true);
 
         return $array;
+    }
+
+    /**
+     * GetStatusesLookup
+     */
+    public function GetStatusesLookup(v1\Tweets\GetStatusesLookupQueryParams &$query_params, $force=false) {
+
     }
         
 }
