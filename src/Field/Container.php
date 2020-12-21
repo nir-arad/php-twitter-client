@@ -51,7 +51,7 @@ class Container
             $this->validate_required($var, $name, $required);
             return;
         }
-        if (!is_a($var, 'String')) {
+        if (!is_string($var)) {
             throw new Exception("Field '" . $name . "' must be a string\n");
         }
     }
@@ -102,7 +102,7 @@ class Container
     public function from_array(&$query_params)
     {
         $this->_values = array();
-        foreach ($this->_FIELDS as $name => &$validation) {
+        foreach (array_keys($this->_FIELDS) as $name) {
             $this->_values[$name] = Utils::array_get($query_params, $name, null);
         }
     }
@@ -111,10 +111,9 @@ class Container
     {
 
         foreach ($this->_FIELDS as $name => &$validation) {
+            $type = $validation[0];
             $validator = $validation[1];
             $required = in_array($name, $this->_REQUIRED);
-
-            $type = $validation[0];
             $val = &$this->_values[$name];
 
             switch ($type) {

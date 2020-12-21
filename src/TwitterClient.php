@@ -190,7 +190,10 @@ class TwitterClient {
     /**
      * GetStatusesLookup
      */
-    public function GetStatusesLookup(v1\Tweets\GetStatusesLookupQueryParams &$query_params, $force=false) {
+    public function GetStatusesLookup(
+        v1\Tweets\GetStatusesLookupQueryParams &$query_params,
+        $force=false) : array {
+
         curl_reset($this->_curl_obj);
 
         if (!$force) {
@@ -200,6 +203,33 @@ class TwitterClient {
         $url = 'https://api.twitter.com/1.1/statuses/lookup.json?';
         $url .= $query_params->to_string();
         $this->curl_setopt_oauth_v1('GET', $url);
+        curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
+    
+        $json = curl_exec($this->_curl_obj);
+        $this->_validate_curl_exec($json);
+        $array = json_decode($json, true);
+
+        return $array;
+    }
+
+    /**
+     * https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-update
+     */
+    public function PostStatusesUpdate(
+        v1\Tweets\PostStatusesUpdateParams &$query_params,
+        $force=false
+    ) : array {
+
+        curl_reset($this->_curl_obj);
+
+        if (!$force) {
+            $query_params->validate();
+        }
+
+        $url = 'https://api.twitter.com/1.1/statuses/update.json?';
+        $url .= $query_params->to_string();
+        $this->curl_setopt_oauth_v1('POST', $url);
+        curl_setopt($this->_curl_obj, CURLOPT_POST, true);
         curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
     
         $json = curl_exec($this->_curl_obj);
