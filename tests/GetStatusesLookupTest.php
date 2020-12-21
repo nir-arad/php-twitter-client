@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use narad1972\TwitterClient\ProjectCredentials;
 use narad1972\TwitterClient\v1;
 
-class TestGetStatusesLookup extends TestCase {
+class GetStatusesLookupTest extends TestCase {
 
     private $client;
 
@@ -83,7 +83,7 @@ class TestGetStatusesLookup extends TestCase {
 
         $response = $this->client->GetStatusesLookup($params);
 
-        echo __METHOD__ . "\n";
+        // echo __METHOD__ . "\n";
         // var_dump($response);
 
         foreach ($response as $status) {
@@ -106,7 +106,7 @@ class TestGetStatusesLookup extends TestCase {
 
         $response = $this->client->GetStatusesLookup($params);
 
-        echo __METHOD__ . "\n";
+        // echo __METHOD__ . "\n";
         // var_dump($response);
 
         foreach ($response as $status) {
@@ -127,7 +127,7 @@ class TestGetStatusesLookup extends TestCase {
 
         $response = $this->client->GetStatusesLookup($params, $forced = true);
 
-        echo __METHOD__ . "\n";
+        // echo __METHOD__ . "\n";
         // var_dump($response);
 
         $this->assertArrayHasKey("errors", $response);

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use narad1972\TwitterClient\ProjectCredentials;
 use narad1972\TwitterClient\v2\Users\GetUsersQueryParams;
 
-class TestGetUsers extends TestCase {
+class GetUsersTest extends TestCase {
 
     private $client;
 

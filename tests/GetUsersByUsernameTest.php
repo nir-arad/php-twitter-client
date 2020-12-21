@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 use narad1972\TwitterClient\ProjectCredentials;
 
-class TestGetUsersByUsername extends TestCase {
+class GetUsersByUsernameTest extends TestCase {
 
     private $client;
 
