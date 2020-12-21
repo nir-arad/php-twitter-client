@@ -49,6 +49,9 @@ class TwitterClient {
     }
 
     private function curl_setopt_oauth_v1($method, $url) : void {
+        $this->validate_project();
+        $this->validate_user();
+
         $oauth = new \OAuth($this->project_credentials->api_key, $this->project_credentials->api_secret);
         $oauth->setToken($this->user_credentials->access_token, $this->user_credentials->access_token_secret);
     

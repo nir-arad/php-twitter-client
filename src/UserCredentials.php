@@ -21,6 +21,16 @@ class UserCredentials {
         $this->access_token = $credentials['access_token'];
         $this->access_token_secret = $credentials['access_token_secret'];
     }
+
+    public function from_json($json_cred) {
+        $cred_array = json_decode($json_cred, true);
+        $this->from_array($cred_array);
+    }
+
+    public function from_file($cred_file) {
+        $json = file_get_contents($cred_file);
+        $this->from_json($json);
+    }
 }
 
 ?>

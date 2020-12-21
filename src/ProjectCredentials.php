@@ -19,4 +19,14 @@ class ProjectCredentials {
         $this->api_key = $credentials['api_key'];
         $this->api_secret = $credentials['api_secret'];
     }
+
+    public function from_json($json_cred) {
+        $cred_array = json_decode($json_cred, true);
+        $this->from_array($cred_array);
+    }
+
+    public function from_file($cred_file) {
+        $json = file_get_contents($cred_file);
+        $this->from_json($json);
+    }
 }
