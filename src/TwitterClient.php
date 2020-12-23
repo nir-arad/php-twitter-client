@@ -12,6 +12,27 @@ use narad1972\TwitterClient\v2;
 
 require_once 'Utils.php';
 
+class HttpMethod {
+    const GET = 1;
+    const POST = 2;
+    const PUT = 3;
+    const DELETE = 4;
+
+    private static $method_map = [
+        HttpMethod::GET => 'GET',
+        HttpMethod::POST => 'POST',
+        HttpMethod::PUT => 'PUT',
+        HttpMethod::DELETE => 'DELETE',
+    ];
+
+    public static function to_string($method_id)
+    {
+        if (isset(static::$method_map[$method_id])) {
+            return static::$method_map[$method_id];
+        }
+    }
+}
+
 class TwitterClient {
     public $project_credentials;
     public $user_credentials;
@@ -60,8 +81,9 @@ class TwitterClient {
     
         $timestamp = time();
         $oauth->setTimestamp($timestamp);
-    
-        $sig = $oauth->generateSignature($method, $url);
+
+        $method_string = HttpMethod::to_string($method);
+        $sig = $oauth->generateSignature($method_string, $url);
     
         $auth_header = "Authorization: OAuth ";
         $auth_header .= 'oauth_consumer_key="' . urlencode($this->project_credentials->api_key) . '", ';
@@ -78,6 +100,11 @@ class TwitterClient {
     
         curl_setopt($this->_curl_obj, CURLOPT_URL, $url);
         curl_setopt($this->_curl_obj, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
+
+        if ($method == HttpMethod::POST) {
+            curl_setopt($this->_curl_obj, CURLOPT_POST, true);
+        }
     }
 
     private function _validate_curl_exec($response) : void {
@@ -202,8 +229,7 @@ class TwitterClient {
 
         $url = 'https://api.twitter.com/1.1/statuses/lookup.json?';
         $url .= $query_params->to_string();
-        $this->curl_setopt_oauth_v1('GET', $url);
-        curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
+        $this->curl_setopt_oauth_v1(HttpMethod::GET, $url);
     
         $json = curl_exec($this->_curl_obj);
         $this->_validate_curl_exec($json);
@@ -228,9 +254,7 @@ class TwitterClient {
 
         $url = 'https://api.twitter.com/1.1/statuses/update.json?';
         $url .= $query_params->to_string();
-        $this->curl_setopt_oauth_v1('POST', $url);
-        curl_setopt($this->_curl_obj, CURLOPT_POST, true);
-        curl_setopt($this->_curl_obj, CURLOPT_RETURNTRANSFER, true);
+        $this->curl_setopt_oauth_v1(HttpMethod::POST, $url);
     
         $json = curl_exec($this->_curl_obj);
         $this->_validate_curl_exec($json);
@@ -238,7 +262,32 @@ class TwitterClient {
 
         return $array;
     }
-        
+
+    /**
+     * https://developer.twitter.com/en/docs/twitter-api/v1/tweets/post-and-engage/api-reference/post-statuses-retweet-id
+     */
+    public function PostStatusesRetweetId(
+        v1\Tweets\PostStatusesRetweetIdParams &$query_params,
+        $force=false
+    ) : array {
+
+        curl_reset($this->_curl_obj);
+
+        if (!$force) {
+            $query_params->validate();
+        }
+
+        $url = 'https://api.twitter.com/1.1/statuses/update.json?';
+        $url .= $query_params->to_string();
+        $this->curl_setopt_oauth_v1(HttpMethod::POST, $url);
+    
+        $json = curl_exec($this->_curl_obj);
+        $this->_validate_curl_exec($json);
+        $array = json_decode($json, true);
+
+        return $array;
+    }
+
 }
 
 ?>
