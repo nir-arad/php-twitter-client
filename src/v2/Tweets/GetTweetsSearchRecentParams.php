@@ -1,11 +1,12 @@
 <?php
 
-namespace narad1972\TwitterClient\v2\Tweets\Search;
+namespace narad1972\TwitterClient\v2\Tweets;
 
 use narad1972\TwitterClient\Field;
+use narad1972\TwitterClient\Field\Container;
 use narad1972\TwitterClient\v2;
 
-class RecentQueryParams extends Field\Container {
+class GetTweetsSearchRecentParams extends Container {
 
     protected $_FIELDS = array(
         "end_time" => array(Field\Types::FIELD_DATE, null),
@@ -73,7 +74,7 @@ class RecentQueryParams extends Field\Container {
 
     public function validate()
     {
-        $this->FieldContainer::validate();
+        parent::validate();
         if (!is_null($this->_values["max_results"])) {
             if ($this->_values["max_results"] < $this->_MAX_RESULTS_MIN) {
                 throw new \Exception("Search for recent tweets: max_results must be higher than " . self::_MAX_RESULTS_MIN . ".");
