@@ -16,63 +16,36 @@ class Container
     protected $_REQUIRED = array();
     protected $_values = array();
 
-    protected function validate_required(&$var, $name, $required)
+    protected function validate_is_date(&$var, $name)
     {
-        if ($required && is_null($var)) {
-            throw new Exception("Field '" . $name . "' must be provided\n");
-        }
-    }
-
-    protected function validate_is_date(&$var, $name, $required = false)
-    {
-        if (is_null($var)) {
-            $this->validate_required($var, $name, $required);
-            return;
-        }
         if (!is_a($var, 'DateTime')) {
             throw new Exception("Field '" . $name . "' must be a DateTime object\n");
         }
     }
 
-    protected function validate_is_int(&$var, $name, $required = false)
+    protected function validate_is_int(&$var, $name)
     {
-        if (is_null($var)) {
-            $this->validate_required($var, $name, $required);
-            return;
-        }
         if (!is_int($var)) {
             throw new Exception("Field '" . $name . "' must be an integer\n");
         }
     }
 
-    protected function validate_is_string(&$var, $name, $required = false)
+    protected function validate_is_string(&$var, $name)
     {
-        if (is_null($var)) {
-            $this->validate_required($var, $name, $required);
-            return;
-        }
         if (!is_string($var)) {
             throw new Exception("Field '" . $name . "' must be a string\n");
         }
     }
 
-    protected function validate_is_enum(&$var, $name, &$enum, $required = false)
+    protected function validate_is_enum(&$var, $name, &$enum)
     {
-        if (is_null($var)) {
-            $this->validate_required($var, $name, $required);
-            return;
-        }
         if (!in_array($var, $enum)) {
             throw new Exception("Enum field '" . $name . "' contains non enumerated value\n");
         }
     }
 
-    protected function validate_is_int_array(&$var, $name, $required = false)
+    protected function validate_is_int_array(&$var, $name)
     {
-        if (is_null($var)) {
-            $this->validate_required($var, $name, $required);
-            return;
-        }
         if (!is_array($var)) {
             throw new Exception("Integer array field '" . $name . "' must be an array\n");
         }
@@ -83,12 +56,8 @@ class Container
         }
     }
 
-    protected function validate_is_enum_array(&$var, $name, $enum, $required = false)
+    protected function validate_is_enum_array(&$var, $name, $enum)
     {
-        if (is_null($var)) {
-            $this->validate_required($var, $name, $required);
-            return;
-        }
         if (!is_array($var)) {
             throw new Exception("Enum array field '" . $name . "' must be an array\n");
         }
@@ -102,8 +71,10 @@ class Container
     public function from_array(&$query_params)
     {
         $this->_values = array();
-        foreach (array_keys($this->_FIELDS) as $name) {
-            $this->_values[$name] = Utils::array_get($query_params, $name, null);
+        foreach ($query_params as $k => $v) {
+            if (array_key_exists($k, $this->_FIELDS)) {
+                $this->_values[$k] = $v;
+            }
         }
     }
 
@@ -114,31 +85,38 @@ class Container
             $type = $validation[0];
             $validator = $validation[1];
             $required = in_array($name, $this->_REQUIRED);
-            $val = &$this->_values[$name];
 
+            if (array_key_exists($name, $this->_values)) {
+                $val = &$this->_values[$name];
+            } else if ($required) {
+                throw new Exception("Field '" . $name . "' must be provided\n");
+            } else {
+                continue;
+            }
+    
             switch ($type) {
                 case Field\Types::FIELD_INT:
-                    $this->validate_is_int($val, $name, $required);
+                    $this->validate_is_int($val, $name);
                     break;
 
                 case Field\Types::FIELD_STRING:
-                    $this->validate_is_string($val, $name, $required);
+                    $this->validate_is_string($val, $name);
                     break;
 
                 case Field\Types::FIELD_DATE:
-                    $this->validate_is_date($val, $name, $required);
+                    $this->validate_is_date($val, $name);
                     break;
 
                 case Field\Types::FIELD_ENUM:
-                    $this->validate_is_enum($val, $name, $validator, $required);
+                    $this->validate_is_enum($val, $name, $validator);
                     break;
 
                 case Field\Types::FIELD_INT_ARRAY:
-                    $this->validate_is_int_array($val, $name, $required);
+                    $this->validate_is_int_array($val, $name);
                     break;
 
                 case Field\Types::FIELD_ENUM_ARRAY:
-                    $this->validate_is_enum_array($val, $name, $validator, $required);
+                    $this->validate_is_enum_array($val, $name, $validator);
                     break;
 
                 default:
@@ -151,7 +129,7 @@ class Container
     {
         $ret = [];
         foreach ($this->_FIELDS as $name => &$validation) {
-            if (!$this->_values[$name]) continue;
+            if (!array_key_exists($name, $this->_values)) continue;
 
             $field = $name . "=";
             $type = $validation[0];
