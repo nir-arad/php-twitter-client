@@ -107,12 +107,37 @@ class TwitterClient {
         }
     }
 
+    /**
+     * https://developer.twitter.com/en/docs/authentication/oauth-1-0a/creating-a-signature
+     */
+    private function oauth_generate_signature($method, $url, $key, $params) : string {
+        $enc_params = array();
+
+        foreach ($params as $k => $v) {
+            $enc_k = urlencode($k);
+            $enc_v = urlencode($v);
+            $enc_params[] = $enc_k . "=" . $enc_v;
+        }
+
+        ksort($enc_params);
+        $param_string = implode("&", $enc_params);
+        print("PARAM STRING = " . $param_string . "\n");
+
+        $base_string = strtoupper($method) . "&";
+        $base_string .= urlencode($url) . "&";
+        $base_string .= urlencode($param_string);
+        print("SIG BASE = " . $base_string . "\n");
+        
+        $sig = base64_encode(hash_hmac("sha1", $base_string, $key, true));
+        return $sig;
+    }
+
     private function curl_setopt_oauth_request_token($method, $url, $callback_uri) : void {
         $this->validate_project();
 
         $oauth = new \OAuth($this->project_credentials->api_key, $this->project_credentials->api_secret, OAUTH_SIG_METHOD_HMACSHA1);
 
-        $nonce = mt_rand();
+        $nonce = md5(microtime() . mt_rand());
         $oauth->setNonce($nonce);
     
         $timestamp = time();
@@ -120,27 +145,44 @@ class TwitterClient {
 
         $method_string = HttpMethod::to_string($method);
         $sig = $oauth->generateSignature($method_string, $url);
+        print("SIG-1 = " . $sig . "\n");
+
+        // $sig_key = $this->project_credentials->api_secret;
+        $sig_key = $this->project_credentials->api_secret . "&";
 
         // $sig_base = $method_string . "&" . rawurlencode($url) . "&"
         // . rawurlencode("oauth_consumer_key=" . rawurlencode($this->project_credentials->api_key)
         // . "&oauth_nonce=" . rawurlencode($nonce)
         // . "&oauth_signature_method=" . rawurlencode("HMAC-SHA1")
         // . "&oauth_timestamp=" . $timestamp
-        // . "&oauth_version=" . '"1.0"');
-        // $sig_key = $this->project_credentials->api_secret . "&";
+        // . "&oauth_version=" . "1.0");
         // $sig = base64_encode(hash_hmac("sha1", $sig_base, $sig_key, true));
+        // print("SIG BASE = " . $sig_base . "\n");
+        // print("SIG-2 = " . $sig . "\n");
+
+        $sig_params = [
+            'oauth_callback' => $callback_uri,
+            'oauth_consumer_key' => $this->project_credentials->api_key,
+            'oauth_nonce' => $nonce,
+            'oauth_signature_method' => "HMAC-SHA1",
+            'oauth_timestamp' => $timestamp,
+            'oauth_version' => "1.0"
+        ];
+        $sig = $this->oauth_generate_signature($method_string, $url, $sig_key, $sig_params);
+        print("SIG-3 = " . $sig . "\n");
 
         $auth_header = "Authorization: OAuth ";
-        $auth_header .= 'oauth_nonce="' . $nonce . '", ';
         $auth_header .= 'oauth_callback="' . urlencode($callback_uri) . '", ';
-        $auth_header .= 'oauth_signature_method="HMAC-SHA1", ';
-        $auth_header .= 'oauth_timestamp="' . $timestamp . '", ';
         $auth_header .= 'oauth_consumer_key="' . urlencode($this->project_credentials->api_key) . '", ';
-        $auth_header .= 'oauth_signature="' . rawurlencode($sig) . '", ';
+        $auth_header .= 'oauth_nonce="' . $nonce . '", ';
+        $auth_header .= 'oauth_signature_method="HMAC-SHA1", ';
+        $auth_header .= 'oauth_signature="' . urlencode($sig) . '", ';
+        $auth_header .= 'oauth_timestamp="' . $timestamp . '", ';
         $auth_header .= 'oauth_version="1.0"';
 
         $headers = array();
         $headers[] = 'Content-type: application/json';
+        // $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         $headers[] = $auth_header;
 
         var_dump($headers);
@@ -173,12 +215,19 @@ class TwitterClient {
         $query_string = $query_params->to_string();
 
         $url = 'https://api.twitter.com/oauth/request_token';
-        $callback_uri = Utils::array_get($query_params, "oauth_callback", "oob");
+        $callback_uri = Utils::array_get($query_params->get(), "oauth_callback", "oob");
         $this->curl_setopt_oauth_request_token(HttpMethod::POST, $url, $callback_uri);
     
-        $json = curl_exec($this->_curl_obj);
-        $this->_validate_curl_exec($json);
-        $array = json_decode($json, true);
+        $response = curl_exec($this->_curl_obj);
+        $this->_validate_curl_exec($response);
+        $resp_array = explode("&", $response);
+        $array = [];
+        foreach ($resp_array as $part) {
+            $parts = explode("=", $part);
+            $k = $parts[0];
+            $v = $parts[1];
+            $array[$k] = $v;
+        }
 
         return $array;
     }

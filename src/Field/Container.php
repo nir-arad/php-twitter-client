@@ -183,4 +183,8 @@ class Container
         $ret = implode('&', $ret);
         return $ret;
     }
+
+    public function get() : array {
+        return $this->_values;
+    }
 }
