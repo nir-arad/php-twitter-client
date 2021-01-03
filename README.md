@@ -128,8 +128,8 @@ If you discover any security related issues, please email narad1972@gmail.com in
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
 <!-- Packagist -->
-[ico-version]: https://img.shields.io/packagist/v/narad1972/php-twitter-client.svg?style=flat-square
-[link-packagist]: https://packagist.org/packages/narad1972/php-twitter-client
+[ico-version]: https://img.shields.io/packagist/v/nir-arad/php-twitter-client.svg?style=flat-square
+[link-packagist]: https://packagist.org/packages/nir-arad/php-twitter-client
 
 <!-- License -->
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
