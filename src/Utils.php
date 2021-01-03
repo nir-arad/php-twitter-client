@@ -1,6 +1,6 @@
 <?php
 
-namespace AradNir\TwitterClient;
+namespace Nir-Arad\TwitterClient;
 
 class Utils {
 

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace AradNir\TwitterClientTest;
+namespace Nir-Arad\TwitterClientTest;
 
 use PHPUnit\Framework\TestCase;
 
-use AradNir\TwitterClient;
-use AradNir\TwitterClient\ProjectCredentials;
-use AradNir\TwitterClient\v1;
+use Nir-Arad\TwitterClient;
+use Nir-Arad\TwitterClient\ProjectCredentials;
+use Nir-Arad\TwitterClient\v1;
 
 class GetStatusesLookupTest extends TestCase {
 

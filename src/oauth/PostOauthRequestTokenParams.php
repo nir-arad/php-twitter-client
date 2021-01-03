@@ -1,8 +1,8 @@
 <?php
 
-namespace AradNir\TwitterClient\oauth;
+namespace Nir-Arad\TwitterClient\oauth;
 
-use AradNir\TwitterClient\Field;
+use Nir-Arad\TwitterClient\Field;
 
 class PostOauthRequestTokenParams extends Field\Container {
 

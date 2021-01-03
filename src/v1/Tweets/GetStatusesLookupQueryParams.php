@@ -1,11 +1,11 @@
 <?php
 
-namespace AradNir\TwitterClient\v1\Tweets;
+namespace Nir-Arad\TwitterClient\v1\Tweets;
 
 use InvalidArgumentException;
 
-use AradNir\TwitterClient\Field;
-use AradNir\TwitterClient\v1;
+use Nir-Arad\TwitterClient\Field;
+use Nir-Arad\TwitterClient\v1;
 
 class GetStatusesLookupQueryParams extends Field\Container {
     protected $_FIELDS = array(

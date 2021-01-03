@@ -1,6 +1,6 @@
 <?php
 
-namespace AradNir\TwitterClient\Field;
+namespace Nir-Arad\TwitterClient\Field;
 
 class Types {
     const FIELD_INT = 0;

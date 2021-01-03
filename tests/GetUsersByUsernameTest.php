@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace AradNir\TwitterClient;
+namespace Nir-Arad\TwitterClient;
 
 use PHPUnit\Framework\TestCase;
 
-use AradNir\TwitterClient\ProjectCredentials;
+use Nir-Arad\TwitterClient\ProjectCredentials;
 
 class GetUsersByUsernameTest extends TestCase {
 

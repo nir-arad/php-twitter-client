@@ -1,6 +1,6 @@
 <?php
 
-namespace AradNir\TwitterClient\v2\Users;
+namespace Nir-Arad\TwitterClient\v2\Users;
 
 class Constants
 {

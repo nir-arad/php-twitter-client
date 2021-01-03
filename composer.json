@@ -1,12 +1,12 @@
 {
-    "name": "aradnir/php-twitter-client",
+    "name": "nir-arad/php-twitter-client",
     "type": "library",
     "description": "A Twitter API Client in PHP",
     "keywords": [
         "narad1972",
         "php-twitter-client"
     ],
-    "homepage": "https://github.com/AradNir/php-twitter-client",
+    "homepage": "https://github.com/Nir-Arad/php-twitter-client",
     "license": "MIT",
     "authors": [
         {
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "AradNir\\TwitterClient\\": "src"
+            "Nir-Arad\\TwitterClient\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AradNir\\TwitterClientTest\\": "tests"
+            "Nir-Arad\\TwitterClientTest\\": "tests"
         }
     },
     "scripts": {

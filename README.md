@@ -25,31 +25,90 @@ tests/
 vendor/
 ```
 
-
+---
 ## Install
 
 Via Composer
 
 ``` bash
-$ composer require narad1972/php-twitter-client
+$ composer require nir-arad/php-twitter-client
 ```
 
+---
+## Test
+
+``` bash
+$ composer test
+```
+
+---
 ## Usage
 
+Below is a usage example to fetch a tweet and display its contents and attributes.
+
+---
+### Step 1. Sign up as a developer
+
+[Twitter Developer Home](https://developer.twitter.com/)
+---
+### Step 2. Create a project
+---
+### Step 3. Get project credentials
+
+You will need to obtain both {api_key, api_secret} tokens for Oauth v1 based APIs, and a bearer token for Oauth v2 based APIs.
+
+Store the credentials in a file (e.g. "project.json"). The file format is as follows:
+
+``` json
+{
+    "bearer_token": "AAAAAAAAAAAAAAAAAAAA...",
+    "api_key": "4FlE...",
+    "api_secret": "OewZ..."
+}
+```
+---
+### Step 4. Obtain user credentials
+
+Store the credentials in a file (e.g. "user.json"). The file format is as follows:
+``` json
+{
+    "oauth_token": "123...",
+    "oauth_token_secret": "wWby...",
+    "user_id": "987...",
+    "screen_name": "MyTwitterUser"
+}
+```
+---
+### Step 5. Code example
+
+
 ``` php
-$skeleton = new League\Skeleton();
-echo $skeleton->echoPhrase('Hello, League!');
+use nir-arad\TwitterClient;
+
+$p_cred = new TwitterClient\ProjectCredentials();
+$p_cred->from_file($p_cred_file);
+
+$u_cred = new TwitterClient\UserCredentials();
+$u_cred->from_file($u_cred_file);
+
+$client = new TwitterClient\TwitterClient();
+$client->project_credentials = $p_cred;
+$client->user_credentials = $u_cred;
+
+$params = new TwitterClient\v1\Tweets\GetStatusesLookupQueryParams();
+$params_array = array(
+    "id" => array(1326023218772144134)
+);
+$params->from_array($params_array)
+$response = $client->GetStatusesLookup($params);
+
+var_dump($response);
+
 ```
 
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Testing
-
-``` bash
-$ composer test
-```
 
 ## Contributing
 

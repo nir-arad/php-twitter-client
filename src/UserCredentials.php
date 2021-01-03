@@ -1,8 +1,8 @@
 <?php
 
-namespace AradNir\TwitterClient;
+namespace Nir-Arad\TwitterClient;
 
-use AradNir\TwitterClient\Utils;
+use Nir-Arad\TwitterClient\Utils;
 
 class UserCredentials {
     public $screen_name;

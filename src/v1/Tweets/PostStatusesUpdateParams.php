@@ -1,8 +1,8 @@
 <?php
 
-namespace AradNir\TwitterClient\v1\Tweets;
+namespace Nir-Arad\TwitterClient\v1\Tweets;
 
-use AradNir\TwitterClient\Field;
+use Nir-Arad\TwitterClient\Field;
 
 class PostStatusesUpdateParams extends Field\Container {
     protected $_FIELDS = array(
