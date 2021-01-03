@@ -1,13 +1,15 @@
 # php-twitter-client
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-gitlab-build]][link-gitlab-build]
-[![Pipeline status][ico-gitlab-pipeline]][link-gitlab-pipeline]
-[![Coverage report][ico-gitlab-cov]][link-gitlab-cov]
-[![Total Downloads][ico-downloads]][link-downloads]
-<!-- [![Coverage Status][ico-scrutinizer]][link-scrutinizer] -->
-<!-- [![Quality Score][ico-code-quality]][link-code-quality] -->
+![GitHub Release Downloads][ico-github-downloads]
+[![Latest Version on Packagist][ico-version]][link-packagist]
+![Packagist stars][ico-packagist-stars]
+
+![GitHub Code Size][ico-github-code-size]
+[![GitHub Workflow Build Status][ico-github-workflow]][link-github-workflow]
+![GitHub open issues][ico-github-issues-open]
+![GitHub closed issues][ico-github-issues-closed]
+
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
@@ -127,36 +129,25 @@ If you discover any security related issues, please email narad1972@gmail.com in
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+<!-- License -->
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+
 <!-- Packagist -->
 [ico-version]: https://img.shields.io/packagist/v/nir-arad/php-twitter-client.svg?style=flat-square
 [link-packagist]: https://packagist.org/packages/nir-arad/php-twitter-client
 
-<!-- License -->
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-packagist-stars]: https://img.shields.io/packagist/stars/nir-arad/php-twitter-client
 
-<!-- Build -->
-[ico-gitlab-build]: https://img.shields.io/gitlab/pipeline/narad1972/php-twitter-client/master
-[link-gitlab-build]: https://gitlab.com/narad1972/php-twitter-client/-/releases
+<!-- GitHub Release Downloads -->
+[ico-github-downloads]: https://img.shields.io/github/downloads/nir-arad/php-twitter-client/total
 
-<!-- Pipeline status -->
-[ico-gitlab-pipeline]: https://gitlab.com/narad1972/php-twitter-client/badges/master/pipeline.svg
-[link-gitlab-pipeline]: https://gitlab.com/narad1972/php-twitter-client/commits/master
+<!-- GitHub Code Size -->
+[ico-github-code-size]: https://img.shields.io/github/languages/code-size/nir-arad/php-twitter-client
 
-<!-- Coverage -->
-<!-- [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/narad1972/php-twitter-client.svg?style=flat-square -->
-<!-- [link-scrutinizer]: https://scrutinizer-ci.com/g/narad1972/php-twitter-client/code-structure -->
+<!-- GitHub Workflow Build Status -->
+[ico-github-workflow]: https://img.shields.io/github/workflow/status/nir-arad/php-twitter-client/PHP%20Composer/master
+[link-github-workflow]: https://github.com/nir-arad/php-twitter-client/actions?query=workflow%3A%22PHP+Composer%22
 
-[ico-gitlab-cov]: https://gitlab.com/narad1972/php-twitter-client/badges/master/coverage.svg
-[link-gitlab-cov]: https://gitlab.com/narad1972/php-twitter-client/-/graphsmaster/charts
+[ico-github-issues-open]: https://img.shields.io/github/issues/nir-arad/php-twitter-client
 
-<!-- Quality -->
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/narad1972/php-twitter-client.svg?style=flat-square
-[link-code-quality]: https://scrutinizer-ci.com/g/narad1972/php-twitter-client
-
-<!-- Downloads -->
-[ico-downloads]: https://img.shields.io/packagist/dt/narad1972/php-twitter-client.svg?style=flat-square
-[link-downloads]: https://packagist.org/packages/narad1972/php-twitter-client
-
-<!-- Credits -->
-[link-author]: https://gitlab.com/narad1972
-[link-contributors]: https://gitlab.com/narad1972/php-twitter-client/-/graphs/master
+[ico-github-issues-closed]: https://img.shields.io/github/issues-closed/nir-arad/php-twitter-client
