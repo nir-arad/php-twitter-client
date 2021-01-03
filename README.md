@@ -1,4 +1,4 @@
-# php-twitter-client
+# php-twitter-client: A Twitter Client library in PHP
 
 [![Software License][ico-license]](LICENSE.md)
 ![GitHub Release Downloads][ico-github-downloads]
@@ -7,11 +7,10 @@
 
 ![GitHub Code Size][ico-github-code-size]
 [![GitHub Workflow Build Status][ico-github-workflow]][link-github-workflow]
-![GitHub open issues][ico-github-issues-open]
-![GitHub closed issues][ico-github-issues-closed]
+[![GitHub open issues][ico-github-issues-open]][link-github-issues-open]
+[![GitHub closed issues][ico-github-issues-closed]][link-github-issues-closed]
 
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
 ## Structure
 
@@ -149,5 +148,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-github-workflow]: https://github.com/nir-arad/php-twitter-client/actions?query=workflow%3A%22PHP+Composer%22
 
 [ico-github-issues-open]: https://img.shields.io/github/issues/nir-arad/php-twitter-client
+[link-github-issues-open]: https://github.com/nir-arad/php-twitter-client/issues?q=is%3Aopen
 
 [ico-github-issues-closed]: https://img.shields.io/github/issues-closed/nir-arad/php-twitter-client
+[link-github-issues-closed]: https://github.com/nir-arad/php-twitter-client/issues?q=is%3Aissue+is%3Aclosed
