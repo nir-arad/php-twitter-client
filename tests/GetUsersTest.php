@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace narad1972\TwitterClient;
+namespace TwitterClient;
 
 use PHPUnit\Framework\TestCase;
 
-use narad1972\TwitterClient\ProjectCredentials;
-use narad1972\TwitterClient\v2\Users\GetUsersQueryParams;
+use TwitterClient\ProjectCredentials;
+use TwitterClient\v2\Users\GetUsersQueryParams;
 
 class GetUsersTest extends TestCase {
 

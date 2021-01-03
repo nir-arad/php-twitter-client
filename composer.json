@@ -1,12 +1,12 @@
 {
-    "name": "narad1972/php-twitter-client",
+    "name": "aradnir/php-twitter-client",
     "type": "library",
     "description": "A Twitter API Client in PHP",
     "keywords": [
         "narad1972",
         "php-twitter-client"
     ],
-    "homepage": "https://gitlab.com/narad1972/php-twitter-client",
+    "homepage": "https://github.com/AradNir/php-twitter-client",
     "license": "MIT",
     "authors": [
         {
@@ -20,21 +20,25 @@
         "php" : "~7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4",
-        "squizlabs/php_codesniffer": "^3.0"
+        "phpunit/phpunit": "^9.4"
     },
     "autoload": {
         "psr-4": {
-            "narad1972\\TwitterClient\\": "src",
-            "narad1972\\TwitterClient\\v2\\": "src/v2",
-            "narad1972\\TwitterClient\\v2\\Tweets\\": "src/v2/Tweets",
-            "narad1972\\TwitterClient\\v2\\Tweets\\Search\\": "src/v2/Tweets/Search",
-            "narad1972\\TwitterClient\\v2\\Users\\": "src/v2/Users"
+            "TwitterClient\\": "src",
+            "TwitterClient\\v2\\": "src/v2",
+            "TwitterClient\\v2\\Tweets\\": "src/v2/Tweets",
+            "TwitterClient\\v2\\Tweets\\Search\\": "src/v2/Tweets/Search",
+            "TwitterClient\\v2\\Users\\": "src/v2/Users"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "narad1972\\TwitterClient\\": "tests"
+            "TwitterClientTest\\": "tests",
+            "TwitterClient\\": "src",
+            "TwitterClient\\v2\\": "src/v2",
+            "TwitterClient\\v2\\Tweets\\": "src/v2/Tweets",
+            "TwitterClient\\v2\\Tweets\\Search\\": "src/v2/Tweets/Search",
+            "TwitterClient\\v2\\Users\\": "src/v2/Users"
         }
     },
     "scripts": {

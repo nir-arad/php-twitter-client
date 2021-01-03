@@ -1,11 +1,11 @@
 <?php
 
-namespace narad1972\TwitterClient\v2\Users;
+namespace TwitterClient\v2\Users;
 
 use InvalidArgumentException;
 
-use narad1972\TwitterClient\Field;
-use narad1972\TwitterClient\v2;
+use TwitterClient\Field;
+use TwitterClient\v2;
 
 class GetUsersQueryParams extends Field\Container {
     protected $_FIELDS = array(

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace narad1972\TwitterClient;
+namespace TwitterClient;
 
 use PHPUnit\Framework\TestCase;
 
-use narad1972\TwitterClient\ProjectCredentials;
-use narad1972\TwitterClient\v1;
+use TwitterClient\ProjectCredentials;
+use TwitterClient\v1;
 
 class PostStatusesUpdateTest extends TestCase
 {
@@ -50,12 +50,12 @@ class PostStatusesUpdateTest extends TestCase
         );
         $cred_array = array();
 
-        $cred_filename = 'config/users.json';
+        $cred_filename = 'config/user.json';
 
         if (file_exists($cred_filename)) {
             // Local testing - take credentials from configuration file
             $cred_json = file_get_contents($cred_filename);
-            $cred_array = json_decode($cred_json, true)[0];
+            $cred_array = json_decode($cred_json, true);
         } else {
             // Gitlab CI - take credentials from environment
             foreach ($fields as $field) {

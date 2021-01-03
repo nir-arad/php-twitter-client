@@ -1,8 +1,8 @@
 <?php
 
-namespace narad1972\TwitterClient\oauth;
+namespace TwitterClient\oauth;
 
-use narad1972\TwitterClient\Field;
+use TwitterClient\Field;
 
 class PostOauthRequestTokenParams extends Field\Container {
 

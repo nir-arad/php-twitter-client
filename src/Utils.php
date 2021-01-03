@@ -1,6 +1,6 @@
 <?php
 
-namespace narad1972\TwitterClient;
+namespace TwitterClient;
 
 class Utils {
 
