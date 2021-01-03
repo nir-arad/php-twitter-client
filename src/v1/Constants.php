@@ -1,4 +1,4 @@
 <?php
 
-namespace Nir-Arad\TwitterClient\v1;
+namespace NirArad\TwitterClient\v1;
 

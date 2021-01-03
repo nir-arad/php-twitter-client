@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Nir-Arad\\TwitterClient\\": "src"
+            "NirArad\\TwitterClient\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Nir-Arad\\TwitterClientTest\\": "tests"
+            "NirArad\\TwitterClientTest\\": "tests"
         }
     },
     "scripts": {

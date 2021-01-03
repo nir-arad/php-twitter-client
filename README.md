@@ -83,7 +83,7 @@ Store the credentials in a file (e.g. "user.json"). The file format is as follow
 
 
 ``` php
-use nir-arad\TwitterClient;
+use NirArad\TwitterClient;
 
 $p_cred = new TwitterClient\ProjectCredentials();
 $p_cred->from_file($p_cred_file);
