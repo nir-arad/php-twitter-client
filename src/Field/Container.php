@@ -1,12 +1,12 @@
 <?php
 
-namespace TwitterClient\Field;
+namespace AradNir\TwitterClient\Field;
 
 use DateTimeInterface;
 use UnexpectedValueException;
 
-use TwitterClient\Utils;
-use TwitterClient\Field;
+use AradNir\TwitterClient\Utils;
+use AradNir\TwitterClient\Field;
 
 use Exception;
 

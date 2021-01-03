@@ -1,10 +1,10 @@
 <?php
 
-namespace TwitterClient\v2\Tweets;
+namespace AradNir\TwitterClient\v2\Tweets;
 
-use TwitterClient\Field;
-use TwitterClient\Field\Container;
-use TwitterClient\v2;
+use AradNir\TwitterClient\Field;
+use AradNir\TwitterClient\Field\Container;
+use AradNir\TwitterClient\v2;
 
 class GetTweetsSearchRecentParams extends Container {
 

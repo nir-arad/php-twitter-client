@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace TwitterClient;
+namespace AradNir\TwitterClientTest;
 
 use PHPUnit\Framework\TestCase;
 
-use TwitterClient\ProjectCredentials;
-use TwitterClient\v1;
+use AradNir\TwitterClient;
+use AradNir\TwitterClient\ProjectCredentials;
+use AradNir\TwitterClient\v1;
 
 class GetStatusesLookupTest extends TestCase {
 
@@ -61,13 +62,13 @@ class GetStatusesLookupTest extends TestCase {
             }
         }
 
-        $cred_obj = new UserCredentials();
+        $cred_obj = new TwitterClient\UserCredentials();
         $cred_obj->from_array($cred_array);
         return $cred_obj;
     }
 
     private function init() {
-        $this->client = new TwitterClient();
+        $this->client = new TwitterClient\TwitterClient();
         $this->client->project_credentials = $this->get_project_credentials();
         $this->client->user_credentials = $this->get_user_credentials();
     }

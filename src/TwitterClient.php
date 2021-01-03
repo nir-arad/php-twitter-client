@@ -1,12 +1,12 @@
 <?php
 
-namespace TwitterClient;
+namespace AradNir\TwitterClient;
 
 use RuntimeException;
 use InvalidArgumentException;
 
-use TwitterClient\v1;
-use TwitterClient\v2;
+use AradNir\TwitterClient\v1;
+use AradNir\TwitterClient\v2;
 
 require_once 'Utils.php';
 

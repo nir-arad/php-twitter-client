@@ -24,21 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "TwitterClient\\": "src",
-            "TwitterClient\\v2\\": "src/v2",
-            "TwitterClient\\v2\\Tweets\\": "src/v2/Tweets",
-            "TwitterClient\\v2\\Tweets\\Search\\": "src/v2/Tweets/Search",
-            "TwitterClient\\v2\\Users\\": "src/v2/Users"
+            "AradNir\\TwitterClient\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "TwitterClientTest\\": "tests",
-            "TwitterClient\\": "src",
-            "TwitterClient\\v2\\": "src/v2",
-            "TwitterClient\\v2\\Tweets\\": "src/v2/Tweets",
-            "TwitterClient\\v2\\Tweets\\Search\\": "src/v2/Tweets/Search",
-            "TwitterClient\\v2\\Users\\": "src/v2/Users"
+            "AradNir\\TwitterClientTest\\": "tests"
         }
     },
     "scripts": {

@@ -1,8 +1,8 @@
 <?php
 
-namespace TwitterClient\v1\Tweets;
+namespace AradNir\TwitterClient\v1\Tweets;
 
-use TwitterClient\Field;
+use AradNir\TwitterClient\Field;
 
 class PostStatusesRetweetIdParams extends Field\Container {
     protected $_FIELDS = array(

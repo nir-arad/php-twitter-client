@@ -1,6 +1,6 @@
 <?php
 
-namespace TwitterClient;
+namespace AradNir\TwitterClient;
 
 interface TwitterClientInterface {
 }
