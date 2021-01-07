@@ -141,7 +141,11 @@ class TwitterClient
     {
         $this->validate_project();
 
-        $oauth = new \OAuth($this->project_credentials->api_key, $this->project_credentials->api_secret, OAUTH_SIG_METHOD_HMACSHA1);
+        $oauth = new \OAuth(
+            $this->project_credentials->api_key,
+            $this->project_credentials->api_secret,
+            OAUTH_SIG_METHOD_HMACSHA1
+        );
 
         $nonce = md5(microtime() . mt_rand());
         $oauth->setNonce($nonce);
@@ -232,6 +236,10 @@ class TwitterClient
         return $array;
     }
 
+    /**
+     * 3-legged OAuth flow: step 3
+     * https://developer.twitter.com/en/docs/authentication/oauth-1-0a/obtaining-user-access-tokens
+     */
     public function PostOauthAccessToken(oauth\PostOauthAccessTokenParams $query_params, $force = false): array
     {
         curl_reset($this->_curl_obj);
@@ -239,7 +247,36 @@ class TwitterClient
             $query_params->validate();
         }
 
-        $url = 'https://api.twitter.com/oauth/oauth_token';
+        $url = 'https://api.twitter.com/oauth/access_token';
+
+        $this->curl_setopt_oauth_user_access(HttpMethod::POST, $url, $query_params->get());
+
+        $response = curl_exec($this->_curl_obj);
+        $this->_validate_curl_exec($response);
+        $resp_array = explode("&", $response);
+        $array = [];
+        foreach ($resp_array as $part) {
+            $parts = explode("=", $part);
+            $k = $parts[0];
+            $v = $parts[1];
+            $array[$k] = $v;
+        }
+
+        return $array;
+    }
+
+    /**
+     * Invalidate access token
+     * https://developer.twitter.com/en/docs/authentication/api-reference/invalidate_access_token
+     */
+    public function PostOauthInvalidateToken(oauth\PostOauthInvalidateTokenParams $query_params, $force = false): array
+    {
+        curl_reset($this->_curl_obj);
+        if (!$force) {
+            $query_params->validate();
+        }
+
+        $url = 'https://api.twitter.com/1.1/oauth/invalidate_token.json';
 
         $this->curl_setopt_oauth_user_access(HttpMethod::POST, $url, $query_params->get());
 
